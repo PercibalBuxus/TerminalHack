@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color: black;
+    color: rgb(0,255, 0);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 14pt;
+    text-transform: uppercase;
+}
+
+button{
+    position: relative;
+    background-color: rgb(0, 255, 0);
+    color: black;
+    border-style: none;
+    padding: 10px 20px 10px 20px ;
+    display: block;
+    width: 200px;
+    margin-top: 20px;
+}
