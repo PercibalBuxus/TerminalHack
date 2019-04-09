@@ -4,13 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
-import { JelszoFeltoroComponent } from './jelszo-feltoro/jelszo-feltoro.component';
+import { PasswordCrackerComponent } from './password-cracker/password-cracker.component';
+import { MemoryMapperComponent } from './memory-mapper/memory-mapper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    JelszoFeltoroComponent
+    PasswordCrackerComponent,
+    MemoryMapperComponent
   ],
   imports: [
     BrowserModule,

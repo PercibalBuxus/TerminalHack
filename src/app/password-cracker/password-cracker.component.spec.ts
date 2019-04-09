@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JelszoFeltoroComponent } from './jelszo-feltoro.component';
+import { PasswordCrackerComponent } from './password-cracker.component';
 
-describe('JelszoFeltoroComponent', () => {
-  let component: JelszoFeltoroComponent;
-  let fixture: ComponentFixture<JelszoFeltoroComponent>;
+describe('PasswordCrackerComponent', () => {
+  let component: PasswordCrackerComponent;
+  let fixture: ComponentFixture<PasswordCrackerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JelszoFeltoroComponent ]
+      declarations: [ PasswordCrackerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JelszoFeltoroComponent);
+    fixture = TestBed.createComponent(PasswordCrackerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
