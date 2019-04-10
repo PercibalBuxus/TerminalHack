@@ -1,4 +1,6 @@
 import { Injectable, Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,7 @@ export class CrackerService {
 
     let arr = 'abcdefghijklmnopqrstuvwxyz0123456789!+?.-_@&#><'.split('');
 
-    var
-      j,
-      temp;
+    var j, temp;
     for (i = arr.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       temp = arr[i];
@@ -28,14 +28,13 @@ export class CrackerService {
   }
 
 
-  async crack(size: number): Promise<String> {
-    let str = this.randomString(size);
-    let ret = new Promise<String>(resolve => {
+  async crack(size: number) : Promise<String> {
+    let str = new Promise<String>(resolve => {
       setTimeout(() => {
-        resolve(str);
-      }, Math.floor((Math.random() * 10) + 1) * 1000)
+        console.log("wait");
+        resolve(this.randomString(size));
+      }, Math.floor((Math.random() * 10) + 1) * 1000);
     });
-    return ret;
+    return str;
   }
-
 }
