@@ -1,3 +1,17 @@
-<p>
-  memory-mapper works!
-</p>
+<div window>
+  <p>welcome to ROBCO Industries (TM) Termlink</p>
+  <p>Password required</p>
+  <br/>
+  <div class="attempt">
+      <p>Attempts remained:</p>
+      <span *ngIf="attemptsRemained > 0"></span>
+      <span *ngIf="attemptsRemained > 1"></span>
+      <span *ngIf="attemptsRemained > 2"></span>
+      <span *ngIf="attemptsRemained > 3"></span>
+  </div>
+  <div *ngFor="let num of rowNumbers">
+    {{num}}
+  </div>
+  <!--<button (click)="clicked()">Click</button>-->
+   
+</div>

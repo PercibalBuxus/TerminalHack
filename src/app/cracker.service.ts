@@ -1,6 +1,4 @@
 import { Injectable, Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +24,6 @@ export class CrackerService {
     }
     return str.join('');
   }
-
 
   async crack(size: number) : Promise<String> {
     let str = new Promise<String>(resolve => {
