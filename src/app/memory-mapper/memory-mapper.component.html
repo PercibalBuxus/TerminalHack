@@ -1,17 +1,25 @@
-<div window>
+<div class="window">
   <p>welcome to ROBCO Industries (TM) Termlink</p>
   <p>Password required</p>
-  <br/>
+  <br />
   <div class="attempt">
-      <p>Attempts remained:</p>
+    <p>Attempts remained:</p>
+    <div class="bars">
       <span *ngIf="attemptsRemained > 0"></span>
       <span *ngIf="attemptsRemained > 1"></span>
       <span *ngIf="attemptsRemained > 2"></span>
       <span *ngIf="attemptsRemained > 3"></span>
+    </div>
   </div>
-  <div *ngFor="let num of rowNumbers">
-    {{num}}
-  </div>
+  <table>
+    <tr *ngFor="let number of firstRowNumbers; index as i">
+      <td>{{number}}</td>
+      <td>{{firstRows[i]}}</td>
+      <td>{{secondRowNumbers[i]}}</td>
+      <td>{{secondRows[i]}}</td>
+    </tr>
+  </table>
+
   <!--<button (click)="clicked()">Click</button>-->
-   
+
 </div>

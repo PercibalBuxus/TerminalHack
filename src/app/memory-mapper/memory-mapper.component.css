@@ -4,3 +4,21 @@
     width: 20px;
     padding-left: 10px;
 }
+
+.window{
+    position: relative;
+    top: 20px;
+    width: 70%;
+    left: 15%;
+}
+
+.column{
+    width:45%;
+}
+
+.bars{
+    position: relative;
+    float: left;
+    left: 200px;
+    top: -41px;
+}
