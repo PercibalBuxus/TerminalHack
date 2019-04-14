@@ -22,3 +22,46 @@
     left: 200px;
     top: -41px;
 }
+td{
+    padding-left: 10px;
+
+}
+
+button{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 14pt;
+    width: 10px;
+    margin: 0;
+    display: inline;
+    padding: 0;
+    background-color: black;
+    color: rgb(0,255,0);
+}
+
+button:hover{
+    background-color: rgb(0,255,0);
+    color: black;
+    width: 800px;
+}
+
+table{
+    position: relative;
+    float: left;
+}
+
+.terminal {
+    position: relative;
+    float: right;
+}
+
+input{
+    background-color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 14pt;
+    width: 400px;
+    color: rgb(0,255,0);
+    border-style: none;
+    text-transform: uppercase;
+}

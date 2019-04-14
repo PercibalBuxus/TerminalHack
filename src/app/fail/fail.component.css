@@ -1,0 +1,11 @@
+.msg {
+    position: relative;
+    top: 400px;
+    width: 40%;
+    left: 30%;
+    align-content: center;
+}
+
+.msg + p{
+    display: block;
+}

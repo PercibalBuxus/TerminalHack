@@ -6,17 +6,24 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { PasswordCrackerComponent } from './password-cracker/password-cracker.component';
 import { MemoryMapperComponent } from './memory-mapper/memory-mapper.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FailComponent } from './fail/fail.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     PasswordCrackerComponent,
-    MemoryMapperComponent
+    MemoryMapperComponent,
+    FailComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

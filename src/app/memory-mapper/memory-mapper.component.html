@@ -11,15 +11,23 @@
       <span *ngIf="attemptsRemained > 3"></span>
     </div>
   </div>
-  <table>
-    <tr *ngFor="let number of firstRowNumbers; index as i">
-      <td>{{number}}</td>
-      <td>{{firstRows[i]}}</td>
-      <td>{{secondRowNumbers[i]}}</td>
-      <td>{{secondRows[i]}}</td>
-    </tr>
-  </table>
-
-  <!--<button (click)="clicked()">Click</button>-->
-
+  <div>
+    <table>
+      <tr *ngFor="let row of firstRows; index as i">
+        <td>{{row.rowNumber}}</td>
+        <td><button *ngFor="let char of row.char">{{char.char}}</button></td>
+        <td style="padding-left: 20px;">{{secondRows[i].rowNumber}}</td>
+        <td><button *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
+      </tr>
+    </table>
+    <div class="terminal">
+        <div class="output">
+            <div class="line" *ngFor="let line of terminal">
+              <span *ngFor="let char of line">{{char.char}}</span>
+            </div>
+          </div>
+          <label>&gt;</label><input type="text" [(ngModel)]="in" (keyup.enter)="submit()"/>
+    </div>
+    
+  </div>
 </div>

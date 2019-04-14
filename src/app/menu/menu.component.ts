@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { AppRoutingModule } from '../app-routing.module';
 
 @Component({
   selector: 'app-menu',
@@ -11,17 +12,19 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private router: Router
-  ) { }
+  ) { 
+    console.log("OK");
+  }
 
   ngOnInit() {
   }
 
   toMemoryMapper(){
-    this.router.navigateByUrl('/memoryMapper');
+    this.router.navigateByUrl('memoryMapper');
   }
 
   toPasswordCrack(){
-    this.router.navigateByUrl('/passwordCrack');
+    this.router.navigateByUrl('passwordCrack');
   }
 
 }
