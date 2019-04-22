@@ -9,6 +9,8 @@ import { MemoryMapperComponent } from './memory-mapper/memory-mapper.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FailComponent } from './fail/fail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgTerminalModule } from 'ng-terminal';
+import { TerminalComponent } from './memory-mapper/terminal/terminal.component'
 
 @NgModule({
   declarations: [
@@ -16,14 +18,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MenuComponent,
     PasswordCrackerComponent,
     MemoryMapperComponent,
-    FailComponent
+    FailComponent,
+    TerminalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgTerminalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

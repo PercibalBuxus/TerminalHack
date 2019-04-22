@@ -8,8 +8,8 @@
 .window{
     position: relative;
     top: 20px;
-    width: 70%;
-    left: 15%;
+    width: 80%;
+    left: 10%;
 }
 
 .column{
@@ -48,11 +48,18 @@ button:hover{
 table{
     position: relative;
     float: left;
+    display: block;
 }
 
 .terminal {
     position: relative;
     float: right;
+}
+
+.container{
+    position: relative;
+    width: 100%;
+    display: inline-block;
 }
 
 input{
@@ -64,4 +71,18 @@ input{
     color: rgb(0,255,0);
     border-style: none;
     text-transform: uppercase;
+}
+
+.pbutton{
+    width: 8pt;
+}
+
+.pbutton:hover{
+    width: 8pt;
+}
+
+.intro{
+    width: fit-content;
+    align-content: center;
+    position: relative;
 }

@@ -7,10 +7,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 export class CrackerService {
 
   private httpOptions = {
-    headers: new HttpHeaders({ 
-      'Access-Control-Allow-Origin':'*',
-      'Authorization':'authkey',
-      'userid':'1'
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': 'authkey',
+      'userid': '1'
     })
   };
 
@@ -29,7 +29,7 @@ export class CrackerService {
     return str.join('');
   }
 
-  private shuffle(str: string){
+  private shuffle(str: string) {
     let arr = str.split('');
     var j, temp;
     for (var i = arr.length - 1; i > 0; i--) {
@@ -40,20 +40,21 @@ export class CrackerService {
     }
     return arr.join('');
   }
+
   randomGarbageData(size: number): String {
 
     let characters = '!+?.-_@&#><[](){}';
     let arr = this.shuffle(characters).split('');
-    
-    let str = new Array();
+
+    let str = new Array(size);
     for (var i = 0; i < size; i++) {
       arr = this.shuffle(arr.join('')).split('');
-      str.push(arr[i]);
+      str[i] = arr[1];
     }
     return str.join('');
   }
 
-  async crack(size: number) : Promise<String> {
+  async crack(size: number): Promise<String> {
     return await new Promise<String>(resolve => {
       setTimeout(() => {
         console.log("wait");
@@ -62,15 +63,17 @@ export class CrackerService {
     });
   }
 
-  async getGarbageData(size: number) : Promise<String>{
+  async getGarbageData(size: number): Promise<String>{
     return this.randomGarbageData(size);
   }
 
-  async getPasswords(size: Number, quantity: Number) {
+  async getPasswords(size: Number, quantity: Number): Promise<any>{
     let param = new HttpParams()
-      .set("size", size.toString())
-      .set("quantity",quantity.toString());
-  
-    return await this.http.get("/passwords",{ params: param});
+    .set("size", size.toString())
+    .set("quantity", quantity.toString());
+
+    return await new Promise(resolve => {
+      resolve(this.http.get("/passwords", { params: param }));
+    });
   }
 }

@@ -4,6 +4,7 @@ import { Row } from 'src/models/Row';
 import { HexNumber } from 'src/models/HexNumber';
 import { Router } from '@angular/router';
 import { Character } from 'src/models/Character';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-memory-mapper',
@@ -12,107 +13,96 @@ import { Character } from 'src/models/Character';
 })
 export class MemoryMapperComponent implements OnInit {
 
-  public attemptsRemained: number;
+  private attemptsRemained = 4;
   public firstRowNumbers: String[];
   public secondRowNumbers: String[];
-  public firstRows: Row[];
-  public secondRows: Row[];
-  private password: string;
-  @Input() in : String;
+  public firstRows = new Array<Row>(16);
+  public secondRows = new Array<Row>(16);
+  private password: String;
+  private passwords: String[];
+  private line: number;
+  private rawRow: String;
+  @Input() in: String;
 
-  public terminal: Character[][];
+  private term: string;
 
   constructor(
     private cracker: CrackerService,
     private router: Router
-  ) { 
+  ) {
+
     this.init();
   }
 
-  async init(){
-
-    this.terminal = new Array<Character[]>(15);
-    for(var i = 0; i < this.terminal.length; i++){
-      this.terminal[i] = new Array<Character>(40);
-    }
-    this.attemptsRemained = 4;
-    let start = Math.floor(Math.random()*1000000);
-    console.log(start);
-    this.firstRows = new Array<Row>(16);
-    this.secondRows = new Array<Row>(16);
-
-    for(var i = 0; i < 16; i++){
-      let hexnum = new HexNumber(start)
-      let garbage;
-      await this.cracker.getGarbageData(12).then(
-        (result) => {
-          garbage = result;
-        }
-      );
-      this.firstRows[i] = (new Row(hexnum.toString(),garbage));
-      start += 12;
-    }
-    for(var i = 0; i < 16; i++){
-      let hexnum = new HexNumber(start)
-      let garbage;
-      await this.cracker.getGarbageData(12).then(
-        (result) => {
-          garbage = result;
-        }
-      );
-      this.secondRows[i] = (new Row(hexnum.toString(),garbage));
-      start += 12;
-    }
-  }
-
   ngOnInit() {
-    this.cracker.getPasswords(5,10).then(result =>
-      {
-        result.subscribe(data => {
-          console.log(data);
-        })
-      });
+
   }
 
-  clicked(){
-    if(this.attemptsRemained == 0){
-      this.router.navigateByUrl('fail')
-    }
-    this.attemptsRemained--;
+  async init() {
+
+    let numberOfPassWords = 8;
+    let passwordLength = 5;
+
+    await this.cracker.getGarbageData(384).then(res => {
+      this.rawRow = res;
+    });
+
+    await this.cracker.getPasswords(passwordLength, numberOfPassWords).then(result => {
+      result.subscribe(data => {
+        this.passwords = data;
+        console.log(this.passwords);
+        let randomnum = Math.floor(Math.random() * numberOfPassWords + 1).valueOf()
+        console.log(this.passwords[randomnum])
+        this.password = this.passwords[randomnum]
+
+        for (var i = 0; i < numberOfPassWords; i++) {
+          let fraction = Math.floor(this.rawRow.length / 8);
+          console.log("fraction: " + fraction)
+          this.rawRow = this.insertIntoString(this.passwords[i], this.rawRow, (Math.floor(Math.random() * (fraction*(i+1)))));
+        }
+
+        this.setRows();
+      })
+    });
   }
 
-  scroll(){
-    for(var i = 1; i < this.terminal.length; i++){
-      this.terminal[i-1] = this.terminal[i];
+  setRows() {
+    let start = Math.floor(Math.random() * 1000000);  //a számozás kezdete
+
+    let firstColumn = this.rawRow.substring(0, 12 * 16);
+    let secondColumn = this.rawRow.substring(12 * 16, this.rawRow.length)
+
+    if (firstColumn.length == secondColumn.length) {
+      console.log("sikeres vágás");
+    }
+
+    //feltölti a sorokat sorszammal és garbage dataval
+    for (var i = 0; i < 16; i++) {
+      let hexnum = new HexNumber(start)
+      this.firstRows[i] = (new Row(hexnum.toString(), firstColumn.substring(i * 12, ((i + 1) * 12))));
+      start += 12;
+    }
+
+    for (var i = 0; i < 16; i++) {
+      let hexnum = new HexNumber(start)
+      this.secondRows[i] = (new Row(hexnum.toString(), secondColumn.substring(i * 12, ((i + 1) * 12))));
+      start += 12;
     }
   }
 
-  newLine(line: String){
-    let index = 0;
-    for(var i = 0; i < this.terminal.length; i++){
-      if(this.terminal[i][0] == null){
-        index = i;
-        break;
-      }
+  insertIntoString(insert: String, into: String, index: number): String {
+    let arr = into.split('');
+    for (var i = 0; i < insert.length; i++) {
+      arr[(index + i)] = insert[i];
     }
-    if(index >= 15){
-      scroll();
-      index = index - 1;
-    }
-    let check = 0;
-    for(var i = 0; i < line.length; i++){
-      this.terminal[index][i] = new Character(false, line[i])
-      if(i == 40){
-        let arr = 
-        this.newLine(line.slice(i+1,line.length));
-        return;
-      }
-    }
+    return arr.join('');
   }
 
-  submit(){
-    this.newLine(this.in)
-    this.in = null;
+  onTerminalInput(event: String) {
+    //TODO implement password check logic
+    if(this.password.toUpperCase().localeCompare(event.toUpperCase().trim()) == 0){
+      console.log("Helyes")
+    }
   }
 
 }

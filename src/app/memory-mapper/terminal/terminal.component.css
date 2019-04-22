@@ -1,0 +1,29 @@
+textarea, input {
+    text-transform: uppercase;
+    background-color: black;
+    color: rgb(0, 255, 0);
+    border-style: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.output{
+    font-size: 16;
+    display: block;
+    overflow: hidden;
+    resize: none;
+}
+
+.prompt{
+    overflow: inherit;
+    width: 370px;
+    height: 200px;
+    resize: none;
+    overflow: hidden;
+}
+
+label{
+    position: relative;
+    top: -179px;
+}
