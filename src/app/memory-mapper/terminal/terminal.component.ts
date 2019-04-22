@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Buffer } from 'src/models/Buffer';
 
 @Component({
   selector: 'app-terminal',
@@ -9,7 +10,7 @@ export class TerminalComponent implements OnInit {
   @Output() out: EventEmitter<string> = new EventEmitter();
   @Input() inputText: string;
   private output = '';
-  private newLineCount = 0;
+  private terminal = new Buffer(15);
   private _inputFromParent: String;
 
   @Input() set inputFromParent(value: String) {
@@ -17,41 +18,24 @@ export class TerminalComponent implements OnInit {
       return;
     }
     this.output += value;
-    if (this.output.match(/\n/g).length >= 13 && this.newLineCount == 0) {
-      scroll();
-    }
-    scroll();
-    this.newLineCount--;
+    this.terminal.push(this.output);
+    this.output = this.terminal.toString();
+    
   }
 
   constructor() {
   }
 
   ngOnInit() {
-    for (let index = 0; index <= 13; index++) {
-      this.output += '\n'
-    }
 
   }
 
-  private scroll() {
-    let outputtemp = this.output.split('\n')
-    this.output = '';
-    for (var i = 1; i < outputtemp.length - 1; i++) {
-      this.output += outputtemp[i] + '\n';
-    }
-  }
-
-  add(str?: string) {
+  add() {
     this.output += this.inputText;
     this.out.emit(this.inputText);
     this.inputText = '';
-    if (this.output.match(/\n/g).length >= 13 && this.newLineCount < 0) {
-      scroll();
-    }
-    scroll();
-    this.newLineCount--;
-
+    this.terminal.push(this.output);
+    this.output = this.terminal.toString();
   }
 
 }
