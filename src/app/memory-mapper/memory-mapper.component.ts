@@ -50,9 +50,9 @@ export class MemoryMapperComponent implements OnInit {
       result.subscribe(data => {
 
         this.passwords = data;
-        console.log(this.passwords)
+        //console.log(this.passwords)
         let randomnum = Math.floor(Math.random() * numberOfPassWords).valueOf()
-        console.log(randomnum)
+        //console.log(randomnum)
         this.password = this.passwords[randomnum]
         console.log(this.password)
 
@@ -118,6 +118,7 @@ export class MemoryMapperComponent implements OnInit {
         }
       }
       this.termMsg = ('incorrect:\n' + comp + '/' + this.password.length + '\n');
+      console.log(this.termMsg)
       if(this.attemptsRemained == 0){
         this.router.navigateByUrl('fail');
       }
