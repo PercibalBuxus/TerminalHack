@@ -1,10 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 import { CrackerService } from '../cracker.service';
 import { Row } from 'src/models/Row';
 import { HexNumber } from 'src/models/HexNumber';
 import { Router } from '@angular/router';
-import { Character } from 'src/models/Character';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-memory-mapper',
@@ -24,7 +22,7 @@ export class MemoryMapperComponent implements OnInit {
   private rawRow: String;
   @Input() in: String;
 
-  private term: string;
+  public termMsg : string;
 
   constructor(
     private cracker: CrackerService,
@@ -101,7 +99,21 @@ export class MemoryMapperComponent implements OnInit {
   onTerminalInput(event: String) {
     //TODO implement password check logic
     if(this.password.toUpperCase().localeCompare(event.toUpperCase().trim()) == 0){
-      console.log("Helyes")
+      this.termMsg = ("correct")
+      setTimeout(() => {
+        this.router.navigateByUrl('private');
+      },5000);
+    }
+    else{
+      let comp = 0;
+      let eventArray = event.toUpperCase().trim().split('');
+      let passwdArray = this.password.split('');
+      for(var i = 0; i < this.password.length; i++){
+        if(eventArray[i] == passwdArray[i]){
+          comp++;
+        }
+      }
+      this.termMsg = ('' + comp + '/' + this.password.length + '\n');
     }
   }
 

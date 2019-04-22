@@ -8,12 +8,23 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TerminalComponent implements OnInit {
   @Output() out: EventEmitter<string> = new EventEmitter();
   @Input() inputText: string;
-  public output: string;
+  private output = '';
   private newLineCount = 0;
-  @Input() inputFromParent: String;
+  private _inputFromParent: String;
+
+  @Input() set inputFromParent(value: String) {
+    if(typeof value == 'undefined'){
+      return;
+    }
+    this.output += value;
+    if (this.output.match(/\n/g).length >= 13 && this.newLineCount == 0) {
+      scroll();
+    }
+    scroll();
+    this.newLineCount--;
+  }
 
   constructor() {
-    this.output = '';
   }
 
   ngOnInit() {
@@ -23,22 +34,22 @@ export class TerminalComponent implements OnInit {
 
   }
 
-  add(str?:string) {
-    this.output += this.inputText;
-    this.out.emit(this.inputText);
-    this.inputText = '';
-    if (this.output.match(/\n/g).length >= 13 && this.newLineCount == 0) {
-      let outputtemp = this.output.split('\n')
-      this.output = '';
-      for (var i = 1; i < outputtemp.length - 1; i++) {
-        this.output += outputtemp[i] + '\n';
-      }
-    }
+  private scroll() {
     let outputtemp = this.output.split('\n')
     this.output = '';
     for (var i = 1; i < outputtemp.length - 1; i++) {
       this.output += outputtemp[i] + '\n';
     }
+  }
+
+  add(str?: string) {
+    this.output += this.inputText;
+    this.out.emit(this.inputText);
+    this.inputText = '';
+    if (this.output.match(/\n/g).length >= 13 && this.newLineCount < 0) {
+      scroll();
+    }
+    scroll();
     this.newLineCount--;
 
   }

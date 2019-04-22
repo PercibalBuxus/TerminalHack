@@ -1,8 +1,8 @@
 <div class="window">
   <div class="intro">
-    <p>welcome to ROBCO Industries (TM) Termlink</p>
-    <p>Password required</p>
-    <br />
+      <p>welcome to ROBCO Industries (TM) Termlink</p>
+  <p>Password required</p>
+  <br />
   </div>
 
   <div class="attempt">
@@ -23,6 +23,6 @@
         <td><button class="pbutton" *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
       </tr>
     </table>
-    <app-terminal class="terminal" (out)="onTerminalInput($event)"></app-terminal>
+    <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputFromParent]="termMsg"></app-terminal>
   </div>
 </div>

@@ -1,0 +1,28 @@
+<!--
+total 20
+-rw-r--r-- 1 user user    0 ápr   22 23:39 contacts.txt
+drwxr-xr-x 2 user user 4096 ápr   22 23:39 Documents
+drwxr-xr-x 2 user user 4096 ápr   22 23:39 Downloads
+-rw-r--r-- 1 user user    0 ápr   22 23:40 list.cat
+drwxr-xr-x 2 user user 4096 ápr   22 23:39 Pictures
+drwxr-xr-x 2 user user 4096 ápr   22 23:39 projects
+drwxr-xr-x 2 user user 4096 ápr   22 23:39 System32
+-rw-r--r-- 1 user user    0 ápr   22 23:39 veryveryveryimportantdata.data
+
+-->
+<div>
+  <p>total 20</p>
+</div>
+<table>
+  <tr class="line" *ngFor="let line of list">
+    <td>{{line[0]}}</td>
+    <td>{{line[1]}}</td>
+    <td>{{line[2]}}</td>
+    <td>{{line[3]}}</td>
+    <td>{{line[4]}}</td>
+    <td>{{line[5]}}</td>
+    <td>{{line[6]}}</td>
+    <td>{{line[7]}}</td>
+    <td>{{line[8]}}</td>
+  </tr>
+</table>

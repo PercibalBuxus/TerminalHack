@@ -1,0 +1,18 @@
+table{
+    border: none;
+}
+
+tr{
+    border: none;
+}
+
+td{
+    padding-left: 20px;
+    border: none;
+}
+
+tr:hover{
+    background-color: rgb(0,255,0);
+    color: black;
+    border: none;
+}
