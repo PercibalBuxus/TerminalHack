@@ -20,6 +20,7 @@ export class MemoryMapperComponent implements OnInit {
   private passwords: String[];
   private line: number;
   private rawRow: String;
+  public loaded = false;
   @Input() in: String;
 
   public termMsg : string;
@@ -47,15 +48,13 @@ export class MemoryMapperComponent implements OnInit {
 
     await this.cracker.getPasswords(passwordLength, numberOfPassWords).then(result => {
       result.subscribe(data => {
+
         this.passwords = data;
-        console.log(this.passwords);
         let randomnum = Math.floor(Math.random() * numberOfPassWords + 1).valueOf()
-        console.log(this.passwords[randomnum])
         this.password = this.passwords[randomnum]
 
         for (var i = 0; i < numberOfPassWords; i++) {
           let fraction = Math.floor(this.rawRow.length / 8);
-          console.log("fraction: " + fraction)
           this.rawRow = this.insertIntoString(this.passwords[i], this.rawRow, (Math.floor(Math.random() * (fraction*(i+1)))));
         }
 
@@ -70,10 +69,6 @@ export class MemoryMapperComponent implements OnInit {
     let firstColumn = this.rawRow.substring(0, 12 * 16);
     let secondColumn = this.rawRow.substring(12 * 16, this.rawRow.length)
 
-    if (firstColumn.length == secondColumn.length) {
-      console.log("sikeres vágás");
-    }
-
     //feltölti a sorokat sorszammal és garbage dataval
     for (var i = 0; i < 16; i++) {
       let hexnum = new HexNumber(start)
@@ -86,6 +81,7 @@ export class MemoryMapperComponent implements OnInit {
       this.secondRows[i] = (new Row(hexnum.toString(), secondColumn.substring(i * 12, ((i + 1) * 12))));
       start += 12;
     }
+    this.loaded = true;
   }
 
   insertIntoString(insert: String, into: String, index: number): String {
@@ -97,7 +93,6 @@ export class MemoryMapperComponent implements OnInit {
   }
 
   onTerminalInput(event: String) {
-    //TODO implement password check logic
     if(this.password.toUpperCase().localeCompare(event.toUpperCase().trim()) == 0){
       this.termMsg = ("correct")
       setTimeout(() => {
@@ -113,7 +108,11 @@ export class MemoryMapperComponent implements OnInit {
           comp++;
         }
       }
-      this.termMsg = ('' + comp + '/' + this.password.length + '\n');
+      this.termMsg = ('incorrect:\n' + comp + '/' + this.password.length + '\n');
+      if(this.attemptsRemained == 0){
+        this.router.navigateByUrl('fail');
+      }
+      this.attemptsRemained--;
     }
   }
 

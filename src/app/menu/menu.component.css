@@ -5,4 +5,19 @@
     left: 45%;
     top: 50%;
     bottom: 50%;
+    align-content: center;
+}
+
+textarea{
+    background-color: black;
+    color: rgb(0,255, 0);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 12pt;
+    text-transform: uppercase;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    left: -80%;
 }
