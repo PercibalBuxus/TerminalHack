@@ -50,12 +50,21 @@ export class MemoryMapperComponent implements OnInit {
       result.subscribe(data => {
 
         this.passwords = data;
-        let randomnum = Math.floor(Math.random() * numberOfPassWords + 1).valueOf()
+        console.log(this.passwords)
+        let randomnum = Math.floor(Math.random() * numberOfPassWords).valueOf()
+        console.log(randomnum)
         this.password = this.passwords[randomnum]
+        console.log(this.password)
 
         for (var i = 0; i < numberOfPassWords; i++) {
           let fraction = Math.floor(this.rawRow.length / 8);
-          this.rawRow = this.insertIntoString(this.passwords[i], this.rawRow, (Math.floor(Math.random() * (fraction*(i+1)))));
+          let rand = (Math.floor(Math.random() * fraction))
+
+          if(rand > fraction-passwordLength){
+            rand = fraction-passwordLength
+          }
+          rand += fraction*i;
+          this.rawRow = this.insertIntoString(this.passwords[i], this.rawRow, rand);
         }
 
         this.setRows();
