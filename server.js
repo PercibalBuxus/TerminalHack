@@ -13,6 +13,9 @@ var corsOptions = {
 }
 
 
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 app.use(cors(corsOptions))
 
 const bodyParser = require('body-parser')
