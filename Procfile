@@ -1,2 +1,1 @@
-web: node ./server/server.js
-web: ng s --open --proxy.conf.json
+web: ng s --open --proxy-config proxy.conf.json
