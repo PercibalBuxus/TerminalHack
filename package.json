@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +26,8 @@
     "ng-terminal": "^2.0.3",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "typescript": "~2.3.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -54,6 +56,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PercibalBuxus/TerminalHack.git"
+  },
+  "engines": {
+    "node": "10.15.2",
+    "npm": "5.8.0"
   },
   "author": "",
   "license": "ISC",
