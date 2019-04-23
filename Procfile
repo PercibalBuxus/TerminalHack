@@ -1,1 +1,0 @@
-web: ng s --open --proxy-config proxy.conf.json
