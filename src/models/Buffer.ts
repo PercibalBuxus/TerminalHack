@@ -1,5 +1,3 @@
-import { Content } from '@angular/compiler/src/render3/r3_ast';
-
 export class Buffer{
     public size: number;
     public content: string[];
@@ -12,18 +10,24 @@ export class Buffer{
         }
     }
 
-    push(str: string){
+    push(str: String){
+        //console.log("pushed: " +  str);
+        if(typeof str == 'undefined'){
+            return;
+        }
+        
         let strarr = str.split('\n');
         for(var i = 0; i < strarr.length; i++){
             for(var j = 1; j < this.content.length; j++){
-                this.content[j-1] = this.content[j]
+                this.content[j-1] = this.content[j].trim()
             }
-            this.content[this.content.length-1] = strarr[i];
+            this.content[this.content.length-1] = strarr[i].trim();
         }
 
     }
 
-    toString(): string{
+    toString(): string {
+        console.log(this.content);
         return this.content.join('\n');
     }
 }

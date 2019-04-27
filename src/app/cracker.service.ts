@@ -73,7 +73,7 @@ export class CrackerService {
     .set("quantity", quantity.toString());
 
     return await new Promise(resolve => {
-      resolve(this.http.get("/passwords", { params: param }));
+      resolve(this.http.get("passwords", { params: param }));
     });
   }
 }

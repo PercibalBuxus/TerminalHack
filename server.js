@@ -21,11 +21,18 @@ app.use(cors(corsOptions))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
-const port = process.env.PORT;
+let port = undefined;
 
 server = http.createServer(app);
 app.head(`<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://www.google.com">`)
-server.listen(port);
+if(process.env.PORT){
+  server.listen(process.env.PORT);
+  port = process.env.PORT
+}
+else{
+  port = 3000
+  server.listen(3000);
+}
 console.log(`Server is listening on port ${port}`);
 
 app.route('/passwords').get((req,res) => {

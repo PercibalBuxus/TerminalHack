@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CrackerService } from '../cracker.service';
 import { Row } from 'src/models/Row';
 import { HexNumber } from 'src/models/HexNumber';
@@ -21,9 +21,10 @@ export class MemoryMapperComponent implements OnInit {
   private line: number;
   private rawRow: String;
   public loaded = false;
+  private start = undefined;
   @Input() in: String;
 
-  public termMsg : string;
+  public termMsg: string;
 
   constructor(
     private cracker: CrackerService,
@@ -60,23 +61,28 @@ export class MemoryMapperComponent implements OnInit {
           let fraction = Math.floor(this.rawRow.length / 8);
           let rand = (Math.floor(Math.random() * fraction))
 
-          if(rand > fraction-passwordLength){
-            rand = fraction-passwordLength
+          if (rand > fraction - passwordLength) {
+            rand = fraction - passwordLength
           }
-          rand += fraction*i;
+          rand += fraction * i;
           this.rawRow = this.insertIntoString(this.passwords[i], this.rawRow, rand);
         }
 
         this.setRows();
+
       })
     });
   }
 
   setRows() {
-    let start = Math.floor(Math.random() * 1000000);  //a számozás kezdete
+    if (typeof this.start == 'undefined') {
+      this.start = Math.floor(Math.random() * 1000000);  //a számozás kezdete
+    }
 
     let firstColumn = this.rawRow.substring(0, 12 * 16);
     let secondColumn = this.rawRow.substring(12 * 16, this.rawRow.length)
+
+    let start = this.start;
 
     //feltölti a sorokat sorszammal és garbage dataval
     for (var i = 0; i < 16; i++) {
@@ -91,6 +97,7 @@ export class MemoryMapperComponent implements OnInit {
       start += 12;
     }
     this.loaded = true;
+    //console.log(this.rawRow)
   }
 
   insertIntoString(insert: String, into: String, index: number): String {
@@ -102,27 +109,68 @@ export class MemoryMapperComponent implements OnInit {
   }
 
   onTerminalInput(event: String) {
-    if(this.password.toUpperCase().localeCompare(event.toUpperCase().trim()) == 0){
+    //if the password equals to the event the router redirects the usert to the private component
+
+    if(typeof event == 'undefined'){
+      return;
+    }
+
+    event = event.toUpperCase().trim();
+
+    let replaceString = '';
+    for (var i = 0; i < this.password.length; i++) {
+      replaceString += '.';
+    }
+
+    let spaces = '';
+
+    for (var i = 0; i < this.attemptsRemained; i++) {
+      spaces += ' ';
+    }
+
+    if (this.password.toUpperCase().localeCompare(event.toString()) == 0) {
+
       this.termMsg = ("correct")
+
+      for (let index = 0; index < this.passwords.length; index++) {
+        //console.log(this.passwords[index].toString())
+        //console.log(this.rawRow.indexOf(this.passwords[index].toString(),1))
+        this.rawRow = this.rawRow.replace(this.passwords[index].trim(), replaceString)
+        this.setRows();
+      }
+
       setTimeout(() => {
         this.router.navigateByUrl('private');
-      },5000);
+      }, 5000);
     }
-    else{
+    //else compares the two string and calculate the difference
+    else {
+
       let comp = 0;
-      let eventArray = event.toUpperCase().trim().split('');
+      let eventArray = event.split('');  //we split the event and the password into characters to be able to compare
       let passwdArray = this.password.split('');
-      for(var i = 0; i < this.password.length; i++){
-        if(eventArray[i] == passwdArray[i]){
+
+      if (this.passwords.includes(event.trim().toUpperCase())) {
+        this.rawRow = this.rawRow.replace(event.toString(),replaceString)
+        this.setRows()
+      }
+
+      for (var i = 0; i < eventArray.length; i++) {
+        if (eventArray[i] == passwdArray[i]) {
           comp++;
         }
       }
-      this.termMsg = ('incorrect:\n' + comp + '/' + this.password.length + '\n');
+
+
+      this.termMsg = ('incorrect:\n' + comp + '/' + this.password.length + spaces +'\n');
       console.log(this.termMsg)
-      if(this.attemptsRemained == 0){
+
+      if (this.attemptsRemained == 0) {
         this.router.navigateByUrl('fail');
       }
+
       this.attemptsRemained--;
+      //TODO Fix Bug - if the last event equals to the current event it does not generate a term message
     }
   }
 

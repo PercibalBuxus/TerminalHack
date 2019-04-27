@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Buffer } from 'src/models/Buffer';
 
 @Component({
@@ -8,34 +8,44 @@ import { Buffer } from 'src/models/Buffer';
 })
 export class TerminalComponent implements OnInit {
   @Output() out: EventEmitter<string> = new EventEmitter();
-  @Input() inputText: string;
-  private output = '';
-  private terminal = new Buffer(15);
-  private _inputFromParent: String;
 
-  @Input() set inputFromParent(value: String) {
-    if(typeof value == 'undefined'){
-      return;
-    }
-    this.output += value;
-    this.terminal.push(this.output);
-    this.output = this.terminal.toString();
-    
-  }
+  private output = '';
+  private terminal: Buffer;
+  private _inputText;
+
 
   constructor() {
+    this._inputText = '';
+    this.terminal = new Buffer(15);
+    this.output = this.terminal.toString()
   }
 
   ngOnInit() {
-
+    this._inputText = '';
+    document.getElementById('output').setAttribute("rows","15") 
   }
 
-  add() {
-    this.output += this.inputText;
-    this.out.emit(this.inputText);
-    this.inputText = '';
-    this.terminal.push(this.output);
+  @Input() set inputText(value: string){
+    //console.log(value)
+    if(this._inputText.localeCompare('') != 0){
+      return;
+    }
+    else if(typeof this._inputText == 'undefined'){
+      return;
+    }
+    this._inputText = value;
+    this.terminal.push(this._inputText);
+    this._inputText = '';
     this.output = this.terminal.toString();
+    console.log(this.output.split('\n'));
+  };
+
+  add() {
+    this.out.emit(this._inputText);
+    this.terminal.push(this._inputText);
+    this._inputText = '';
+    this.output = this.terminal.toString();
+    console.log(this.output.split('\n'));
   }
 
 }

@@ -23,6 +23,6 @@
         <td><button class="pbutton" *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
       </tr>
     </table>
-    <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputFromParent]="termMsg"></app-terminal>
+    <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputText]="termMsg"></app-terminal>
   </div>
 </div>
