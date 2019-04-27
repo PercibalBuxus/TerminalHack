@@ -28,3 +28,7 @@ label{
     position: relative;
     top: -179px;
 }
+
+div{
+    width: fit-content;
+}

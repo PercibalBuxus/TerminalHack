@@ -1,8 +1,8 @@
 <div class="window">
   <div class="intro">
-      <p>welcome to ROBCO Industries (TM) Termlink</p>
-  <p>Password required</p>
-  <br />
+    <p>welcome to ROBCO Industries (TM) Termlink</p>
+    <p>Password required</p>
+    <br />
   </div>
 
   <div class="attempt">
@@ -15,14 +15,15 @@
     </div>
   </div>
   <div class="container" *ngIf="loaded">
-    <table>
-      <tr *ngFor="let row of firstRows; index as i">
-        <td>{{row.rowNumber}}</td>
-        <td><button class="pbutton" *ngFor="let char of row.char">{{char.char}}</button></td>
-        <td style="padding-left: 20px;">{{secondRows[i].rowNumber}}</td>
-        <td><button class="pbutton" *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
-      </tr>
-    </table>
-    <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputText]="termMsg"></app-terminal>
+
+      <table>
+        <tr *ngFor="let row of firstRows; index as i">
+          <td>{{row.rowNumber}}</td>
+          <td><button class="pbutton" *ngFor="let char of row.char">{{char.char}}</button></td>
+          <td style="padding-left: 20px;">{{secondRows[i].rowNumber}}</td>
+          <td><button class="pbutton" *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
+        </tr>
+      </table>
+      <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputText]="termMsg"></app-terminal>
   </div>
 </div>
