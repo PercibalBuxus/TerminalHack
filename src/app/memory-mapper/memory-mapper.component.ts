@@ -3,6 +3,7 @@ import { CrackerService } from '../cracker.service';
 import { Row } from 'src/models/Row';
 import { HexNumber } from 'src/models/HexNumber';
 import { Router } from '@angular/router';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-memory-mapper',
@@ -28,14 +29,19 @@ export class MemoryMapperComponent implements OnInit {
 
   constructor(
     private cracker: CrackerService,
-    private router: Router
-  ) {
-
-    this.init();
-  }
+    private router: Router,
+    private msg: MessageService
+  ) {}
 
   ngOnInit() {
+    this.init();
 
+    setInterval(()=>{
+      if(this.passwords.includes(this.msg.getMessage())) {
+        this.onTerminalInput(this.msg.getMessage());
+        this.msg.setMessage('');
+      }
+    },1000)
   }
 
   async init() {
@@ -170,8 +176,8 @@ export class MemoryMapperComponent implements OnInit {
       }
 
       this.attemptsRemained--;
-      //TODO Fix Bug - if the last event equals to the current event it does not generate a term message
+      
+      this.msg.setTermMessage(this.termMsg)
     }
   }
-
 }

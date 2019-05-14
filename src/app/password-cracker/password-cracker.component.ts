@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrackerService } from '../cracker.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-password-cracker',
@@ -14,11 +16,29 @@ export class PasswordCrackerComponent implements OnInit {
   public show: boolean;
 
   constructor(
-    private cracker: CrackerService
+    private cracker: CrackerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private msg : MessageService
   ) { }
 
   ngOnInit() {
     this.show = false;
+    this.route.queryParams.subscribe((data) => {
+      if(data == null || typeof data == undefined){
+        return;
+      }
+      console.log(data)
+    });
+
+    setInterval(()=>{
+      switch(this.msg.getMessage()){
+        case "START":
+          this.crack();
+          this.msg.setMessage('');
+        default: return;
+      }
+    },1000);
   }
 
   async crack() {

@@ -12,7 +12,7 @@ export class Buffer{
 
     push(str: String){
         //console.log("pushed: " +  str);
-        if(typeof str == 'undefined'){
+        if(typeof str == 'undefined' || str.localeCompare('') == 0){
             return;
         }
         

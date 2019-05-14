@@ -1,0 +1,8 @@
+<div class="terminal" [ngStyle]="style">
+  <textarea [ngStyle]="{'display': showTerminal ? 'block' : 'none'}" id="output" rows="15" cols="40" readonly>{{output}}</textarea>
+  <div>
+    <label>{{_promptString}}</label>
+    <textarea cols="40" autofocus class="prompt" maxlength="90" (keyup.enter)="add()" (keyup.escape)="exit()"
+      [(ngModel)]="inputText"></textarea>
+  </div>
+</div>

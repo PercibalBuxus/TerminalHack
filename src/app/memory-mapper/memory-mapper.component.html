@@ -1,4 +1,4 @@
-<div class="window">
+<div class="window" (keydown.backspace)="exit()">
   <div class="intro">
     <p>welcome to ROBCO Industries (TM) Termlink</p>
     <p>Password required</p>
@@ -24,6 +24,6 @@
           <td><button class="pbutton" *ngFor="let char of secondRows[i].char">{{char.char}}</button></td>
         </tr>
       </table>
-      <app-terminal class="terminal" (out)="onTerminalInput($event)" [inputText]="termMsg"></app-terminal>
+      <!--<app-terminal class="terminal" (out)="onTerminalInput($event)" [inputText]="termMsg"></app-terminal>-->
   </div>
 </div>
