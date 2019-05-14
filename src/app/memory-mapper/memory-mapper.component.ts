@@ -136,7 +136,7 @@ export class MemoryMapperComponent implements OnInit {
 
     if (this.password.toUpperCase().localeCompare(event.toString()) == 0) {
 
-      this.termMsg = ("correct")
+      this.termMsg = ("CORRECT")
 
       for (let index = 0; index < this.passwords.length; index++) {
         //console.log(this.passwords[index].toString())
@@ -144,6 +144,7 @@ export class MemoryMapperComponent implements OnInit {
         this.rawRow = this.rawRow.replace(this.passwords[index].trim(), replaceString)
         this.setRows();
       }
+      this.msg.setTermMessage(this.termMsg)
 
       setTimeout(() => {
         this.router.navigateByUrl('private');
@@ -170,6 +171,7 @@ export class MemoryMapperComponent implements OnInit {
 
       this.termMsg = ('incorrect:\n' + comp + '/' + this.password.length + spaces +'\n');
       console.log(this.termMsg)
+      this.msg.setTermMessage(this.termMsg)
 
       if (this.attemptsRemained == 0) {
         this.router.navigateByUrl('fail');
@@ -177,7 +179,7 @@ export class MemoryMapperComponent implements OnInit {
 
       this.attemptsRemained--;
       
-      this.msg.setTermMessage(this.termMsg)
+      
     }
   }
 }

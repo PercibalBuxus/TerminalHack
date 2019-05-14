@@ -23,7 +23,7 @@ export class TerminalComponent implements OnInit {
     'top': '30%',
     'position': 'absolute',
     'float': 'right',
-    'right': '30%'
+    'left': '40%'
   }
 
   private basicStyle = {
@@ -49,9 +49,15 @@ export class TerminalComponent implements OnInit {
     this.inputText = '';
 
     setInterval(() => {
-      this.terminal.push(this.msg.getTermMessage())
-      this.msg.setTermMessage('');
-    }, 1000);
+      if(this.msg.getTermMessage().localeCompare('') != 0){
+        this.terminal.push(this.msg.getTermMessage())
+        this.output = this.terminal.toString();
+        if(this.msg.getTermMessage().localeCompare('CORRECT') == 0){
+          this.style = this.basicStyle;
+        }
+        this.msg.setTermMessage('');
+      }
+    }, 200);
   }
 
   set size(size: number) {
@@ -78,13 +84,18 @@ export class TerminalComponent implements OnInit {
   interpret(event: String) {
     let str = event.trim().toUpperCase();
     console.log('Input: ' + str);
+
     if (this.listen) {
       this.listen = false;
       switch (str) {
         case "HELP":
           this.terminal.push(this.helpMsg.toUpperCase());
+          this.output = this.terminal.toString();
+          this.inputText = '';
+          this.listen = true
           return;
         case "CRACK":
+          this.clear()
           this.promptString = 'CRACK\\';
           this.showTerminal = false;
           this.router.navigateByUrl('passwordCrack');
@@ -95,17 +106,19 @@ export class TerminalComponent implements OnInit {
           this.router.navigateByUrl('passwordCrack', { queryParams: { start: false } });
           return;
         case "MEMORYMAP":
+          this.clear();
           this.showTerminal = true;
           this.style = this.memoryMapperStyle
           this.promptString = 'MEMORYMAP\\'
           this.router.navigateByUrl('memoryMapper');
-        case "CLEAR":
-          this.terminal = new Buffer(15);
-          return;
+        
         default: this.listen = true;
       }
     }
     switch (str) {
+      case "CLEAR":
+          this.clear()
+          return;
       case "EXIT":
         this.exit();
         return;
@@ -130,5 +143,10 @@ export class TerminalComponent implements OnInit {
     this.showTerminal = true
     this._promptString = 'C:\\>';
     this.router.navigateByUrl('');
+  }
+
+  clear(){
+    this.terminal = new Buffer(15);
+    this.output = this.terminal.toString()
   }
 }
