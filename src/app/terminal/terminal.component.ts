@@ -54,9 +54,18 @@ export class TerminalComponent implements OnInit {
       if(this.msg.getTermMessage().localeCompare('') != 0){
         this.terminal.push(this.msg.getTermMessage())
         this.output = this.terminal.toString();
-        if(this.msg.getTermMessage().localeCompare('CORRECT') == 0){
-          this.clear()
-          this.style = this.basicStyle;
+        switch(this.msg.getTermMessage()){
+          case 'CORRECT':
+            this.clear()
+            this.style = this.basicStyle;
+            break;
+          case 'FAILED':
+            this.clear();
+            this.style = {
+              'display':'none'
+            }
+            break;
+          default: break;
         }
         this.msg.setTermMessage('');
       }
@@ -121,25 +130,24 @@ export class TerminalComponent implements OnInit {
         case "MEMORYMAP":
           this.clear();
           this.showTerminal = true;
+          this.listen = false;
           this.style = this.memoryMapperStyle
           this.promptString = 'MEMORYMAP\\'
           this.router.navigateByUrl('memoryMapper');
-        
+          return;
         default: 
           this.terminal.push('UNKNOWN COMMAND'.toUpperCase());
           this.output = this.terminal.toString();
-          this.listen = true;
       }
     }
     switch (str) {
       case "CLEAR":
-          this.clear()
-          return;
+        this.clear()
+        return;
       case "EXIT":
         this.clear();
         this.exit();
         return;
-      default: this.listen = true;
     }
   }
 

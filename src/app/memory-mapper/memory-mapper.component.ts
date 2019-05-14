@@ -175,6 +175,7 @@ export class MemoryMapperComponent implements OnInit {
 
       if (this.attemptsRemained == 0) {
         this.router.navigateByUrl('fail');
+        this.msg.setTermMessage('FAILED');
       }
 
       this.attemptsRemained--;

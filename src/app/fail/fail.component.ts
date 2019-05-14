@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-fail',
@@ -9,11 +10,13 @@ import { Router } from '@angular/router';
 export class FailComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private msg: MessageService
   ) { }
 
   ngOnInit() {
     setTimeout(() => {
+      this.msg.setTermMessage('CORRECT');
       this.router.navigateByUrl('');
     }, 5000);
   }
