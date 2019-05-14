@@ -2,7 +2,7 @@
   <textarea [ngStyle]="{'display': showTerminal ? 'block' : 'none'}" id="output" rows="15" cols="80" readonly>{{output}}</textarea>
   <div>
     <label>{{_promptString}}</label>
-    <textarea cols="80" autofocus class="prompt" maxlength="90" (keyup.enter)="add()" (keyup.escape)="exit()"
+    <textarea cols="80" autofocus class="prompt" maxlength="90" (keyup.enter)="add()"  (keyup.escape)="exit()"
       [(ngModel)]="inputText"></textarea>
   </div>
 </div>

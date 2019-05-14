@@ -10,6 +10,7 @@ import { FailComponent } from './fail/fail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TerminalComponent } from './terminal/terminal.component';
 import { PrivateComponent } from './private/private.component';
+import { DoomComponent } from './doom/doom.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PrivateComponent } from './private/private.component';
     MemoryMapperComponent,
     FailComponent,
     TerminalComponent,
-    PrivateComponent
+    PrivateComponent,
+    DoomComponent
   ],
   imports: [
     BrowserModule,

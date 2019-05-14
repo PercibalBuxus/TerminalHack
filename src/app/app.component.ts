@@ -7,10 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+
   title = 'TerminalHack';
-  public outputMsg: String;
-  private listen: Boolean;
-  private changeText = '';
-  private showTerminal = true;
+  public easterEgg = false;
 
 }

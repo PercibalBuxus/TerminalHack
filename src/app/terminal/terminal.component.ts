@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Buffer } from 'src/models/Buffer';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from '../message.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class TerminalComponent implements OnInit {
   private _size: number;
   private listen = true;
   public style;
+  public easterEgg = false;
 
   private memoryMapperStyle = {
     'top': '30%',
@@ -35,6 +36,7 @@ export class TerminalComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private msg: MessageService
   ) {
     this.inputText = '';
@@ -53,6 +55,7 @@ export class TerminalComponent implements OnInit {
         this.terminal.push(this.msg.getTermMessage())
         this.output = this.terminal.toString();
         if(this.msg.getTermMessage().localeCompare('CORRECT') == 0){
+          this.clear()
           this.style = this.basicStyle;
         }
         this.msg.setTermMessage('');
@@ -76,9 +79,11 @@ export class TerminalComponent implements OnInit {
   }
 
   private helpMsg =
-    "help       shows awailable commands\n" +
     "crack      starts password cracker\n" +
-    "memorymap  starts memory mapper\n"
+    "doom       starts doom\n" +
+    "help       shows awailable commands\n" +
+    "memorymap  starts memory mapper\n";
+
 
 
   interpret(event: String) {
@@ -88,6 +93,14 @@ export class TerminalComponent implements OnInit {
     if (this.listen) {
       this.listen = false;
       switch (str) {
+        case "DOOM":
+          this.listen = false;
+          this.showTerminal = false;
+          this.style = {
+            'display':'block'
+          }
+          this.router.navigateByUrl('doom');
+          return;
         case "HELP":
           this.terminal.push(this.helpMsg.toUpperCase());
           this.output = this.terminal.toString();
@@ -112,7 +125,10 @@ export class TerminalComponent implements OnInit {
           this.promptString = 'MEMORYMAP\\'
           this.router.navigateByUrl('memoryMapper');
         
-        default: this.listen = true;
+        default: 
+          this.terminal.push('UNKNOWN COMMAND'.toUpperCase());
+          this.output = this.terminal.toString();
+          this.listen = true;
       }
     }
     switch (str) {
@@ -120,6 +136,7 @@ export class TerminalComponent implements OnInit {
           this.clear()
           return;
       case "EXIT":
+        this.clear();
         this.exit();
         return;
       default: this.listen = true;
@@ -138,6 +155,7 @@ export class TerminalComponent implements OnInit {
   }
 
   exit() {
+    this.clear()
     this.style = this.basicStyle
     this.listen = true;
     this.showTerminal = true
@@ -148,5 +166,11 @@ export class TerminalComponent implements OnInit {
   clear(){
     this.terminal = new Buffer(15);
     this.output = this.terminal.toString()
+  }
+
+  exitfromeasteregg(){
+    this.style = this.basicStyle;
+    this.router.navigateByUrl('');
+    this.clear()
   }
 }
